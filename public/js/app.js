@@ -2227,6 +2227,23 @@ function Chirp(_ref) {
     _useState2 = _slicedToArray(_useState, 2),
     editing = _useState2[0],
     setEditing = _useState2[1];
+  var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_6__.useForm)({
+      message: chirp.message
+    }),
+    data = _useForm.data,
+    setData = _useForm.setData,
+    patch = _useForm.patch,
+    clearErrors = _useForm.clearErrors,
+    reset = _useForm.reset,
+    errors = _useForm.errors;
+  var submit = function submit(e) {
+    e.preventDefault();
+    patch(route("chirps.update", chirp.id), {
+      onSuccess: function onSuccess() {
+        return setEditing(false);
+      }
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "p-6 flex space-x-2",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
@@ -2243,18 +2260,69 @@ function Chirp(_ref) {
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "flex-1",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-        className: "flex justify-content-between items-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "flex justify-between items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "text-gray-800",
             children: chirp.user.name
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("small", {
             className: "ml-2 text-sm text-gray-600",
             children: dayjs__WEBPACK_IMPORTED_MODULE_1___default()(chirp.created_at).fromNow()
+          }), chirp.created_at !== chirp.updated_at && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("small", {
+            className: "text-sm text-blue-600",
+            children: [" ", "\xB7 edited -", " ", dayjs__WEBPACK_IMPORTED_MODULE_1___default()(chirp.updated_at).fromNow()]
           })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+        }), chirp.user.id === auth.user.id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Components_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"].Trigger, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("svg", {
+                xmlns: "http://www.w3.org/2000/svg",
+                className: "h-4 w-4 text-gray-400",
+                viewBox: "0 0 20 20",
+                fill: "currentColor",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("path", {
+                  d: "M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"].Content, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+              className: "block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out",
+              onClick: function onClick() {
+                return setEditing(true);
+              },
+              children: "Edit"
+            })
+          })]
+        })]
+      }), editing ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
+        onSubmit: submit,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("textarea", {
+          value: data.message,
+          onChange: function onChange(e) {
+            return setData("message", e.target.value);
+          },
+          className: "mt-4 w-full text-gray-900 border-gray-300 focus:border-indigo-300 \r focus:ring\r focus:ring-indigo-200\r focus:ring-opacity-50\r rounded-md\r shadow-sm"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_InputError__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          message: errors.message,
+          className: "mt-2 text-red-600"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "space-x-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_PrimaryButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            className: "mt-4",
+            children: "Save"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            className: "mt-4",
+            onClick: function onClick() {
+              setEditing(false);
+              reset();
+              clearErrors();
+            },
+            children: "Cancel"
+          })]
+        })]
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
         className: "mt-4 text-lg text-gray-900",
         children: chirp.message
       })]
@@ -4117,7 +4185,7 @@ function Index(_ref) {
           }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Components_InputError__WEBPACK_IMPORTED_MODULE_2__["default"], {
           message: errors.message,
-          className: "mt-2"
+          className: "mt-2 text-red-600"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Components_PrimaryButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
           className: "mt-4",
           processing: processing,

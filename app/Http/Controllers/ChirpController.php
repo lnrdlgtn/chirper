@@ -26,4 +26,17 @@ class ChirpController extends Controller
 
         return back();
     }
+
+    public function update(Chirp $chirp)
+    {
+        $this->authorize('update', $chirp);
+
+        $validated = request()->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        $chirp->update($validated);
+
+        return back();
+    }
 }
